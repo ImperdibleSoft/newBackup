@@ -131,7 +131,7 @@ public class WLogin implements Runnable {
 					String prodEnv = "http://www.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&";
 					String devEnv = "http://dev.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&";
 					String localEnv = "http://localhost/imperdiblesoft/APIs/public.php?getBackupLogin=true&";
-					String urlStart = devEnv;
+					String urlStart = localEnv;
 					URL url;
 					StringBuffer result;
 					
@@ -156,8 +156,7 @@ public class WLogin implements Runnable {
 						BackupData.setUserEmail(result);
 					}
 					
-					WMainWindow.isLogged = true;
-					wMainWindow.showLblUser();
+					wMainWindow.showUserName();
 					window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
 				
 				} catch (MalformedURLException e) {

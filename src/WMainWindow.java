@@ -22,7 +22,10 @@ import com.jgoodies.forms.layout.RowSpec;
 public class WMainWindow {
 	JFrame mainWindow;
 	JLabel lblUser;
-	public static boolean isLogged = false;
+	JButton btnLogin;
+	JButton btnProfile;
+	JButton btnLogout;
+
 	
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
@@ -226,18 +229,44 @@ public class WMainWindow {
 		JPanel pnlOptions = new JPanel();
 		mainWindow.getContentPane().add(pnlOptions, "2, 4, 1, 3, fill, fill");
 		pnlOptions.setLayout(null);
-		
+
+		/**
+		 * User profile
+		 */
+		btnProfile = new JButton("");
+		btnProfile.setBounds(0, 0, 100, 35);
+		btnProfile.setVisible(false);
+		btnProfile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		pnlOptions.add(btnProfile);
+
 		/**
 		 * Login button
 		 */
-		JButton btnLogin = new JButton("Login");
+		btnLogin = new JButton("Login");
 		btnLogin.setBounds(0, 44, 100, 35);
-		pnlOptions.add(btnLogin);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startLoginThread();
 			}
 		});
+		pnlOptions.add(btnLogin);
+		
+		/**
+		 * Logout button
+		 */
+		btnLogout = new JButton("Logout");
+		btnLogout.setBounds(0, 44, 100, 35);
+		btnLogout.setVisible(false);
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		pnlOptions.add(btnLogout);
 		
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBounds(0, 90, 100, 2);
@@ -289,20 +318,18 @@ public class WMainWindow {
 		pbarStatus.setEnabled(false);
 		pbarStatus.setToolTipText("");
 		
-		/**
-		 * Trucho
-		 */
-		lblUser = new JLabel("User:");
-		lblUser.setVisible(false);
-		lblUser.setBounds(0, 0, 100, 33);
-		pnlOptions.add(lblUser);
-		
 	}
 	
-	public void showLblUser(){
-		lblUser.setText(lblUser.getText() + BackupData.getUserName());
-		lblUser.setVisible(true);
-		lblUser.repaint();
+	public void showUserName(){
+		btnProfile.setText(BackupData.getUserName());
+		btnProfile.setVisible(true);
+		btnProfile.repaint();
+		
+		btnLogin.setVisible(false);
+		btnLogin.repaint();
+		
+		btnLogout.setVisible(true);
+		btnLogout.repaint();
 	}
 
 	public void startLoginThread(){
