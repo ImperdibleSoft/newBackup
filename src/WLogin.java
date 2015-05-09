@@ -127,28 +127,29 @@ public class WLogin implements Runnable {
 				
 				try {
 					// Define the URL
+					String prodEnv = "http://www.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&";
+					String devEnv = "http://dev.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&";
+					String localEnv = "http://localhost/imperdiblesoft/APIs/public.php?getBackupLogin=true&";
+					String urlStart = devEnv;
 					URL url;
 					StringBuffer result;
 					
 					// Get the user ID
-					//url = new URL("http://www.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&return=id_usuario");
-					url = new URL("http://localhost/imperdiblesoft/APIs/public.php?getBackupLogin=true&return=id_usuario");
+					url = new URL(urlStart + "return=id_usuario");
 					result = makeRequest(url);
 					if(result.toString() != "false"){
 						BackupData.setUserID(result);
 					}
 
 					// Get the user Name
-					//url = new URL("http://www.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&return=nombre");
-					url = new URL("http://localhost/imperdiblesoft/APIs/public.php?getBackupLogin=true&return=nombre");
+					url = new URL(urlStart + "return=nombre");
 					result = makeRequest(url);
 					if(result.toString() != "false"){
 						BackupData.setUserName(result);
 					}
 
 					// Get the user Email
-					//url = new URL("http://www.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&return=email");
-					url = new URL("http://localhost/imperdiblesoft/APIs/public.php?getBackupLogin=true&return=email");
+					url = new URL(urlStart + "return=email");
 					result = makeRequest(url);
 					if(result.toString() != "false"){
 						BackupData.setUserEmail(result);
