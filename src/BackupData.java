@@ -198,7 +198,7 @@ public class BackupData {
 		BackupData.userEmail = userEmail.toString();
 		System.out.println("Setting userEmail to: "+ BackupData.userEmail);
 	}
-	public String getUserName() {
+	public static String getUserName() {
 		return userName;
 	}
 	public static void setUserName(StringBuffer userName) {

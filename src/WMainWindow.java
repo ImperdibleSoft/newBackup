@@ -21,6 +21,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class WMainWindow {
 	JFrame mainWindow;
+	JLabel lblUser;
 	public static boolean isLogged = false;
 	
 	public static void main(String[] args){
@@ -234,8 +235,7 @@ public class WMainWindow {
 		pnlOptions.add(btnLogin);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Thread login = new Thread(new WLogin());
-				login.start();
+				startLoginThread();
 			}
 		});
 		
@@ -292,13 +292,24 @@ public class WMainWindow {
 		/**
 		 * Trucho
 		 */
-		JLabel lblUser = new JLabel("User:");
+		lblUser = new JLabel("User:");
 		lblUser.setVisible(false);
 		lblUser.setBounds(0, 0, 100, 33);
 		pnlOptions.add(lblUser);
 		
 	}
+	
+	public void showLblUser(){
+		lblUser.setText(lblUser.getText() + BackupData.getUserName());
+		lblUser.setVisible(true);
+		lblUser.repaint();
+	}
 
+	public void startLoginThread(){
+		Thread login = new Thread(new WLogin(this));
+		login.start();
+	}
+	
 	public boolean isVisible() {
 		return mainWindow.isVisible();
 	}

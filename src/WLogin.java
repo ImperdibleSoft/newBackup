@@ -32,6 +32,7 @@ import java.awt.event.ActionEvent;
 
 public class WLogin implements Runnable {
 	JFrame window;
+	WMainWindow wMainWindow;
 	private JTextField textUser;
 	private JTextField textPassword;
 	
@@ -42,19 +43,19 @@ public class WLogin implements Runnable {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			
 			/*	Open the window	*/
-			WLogin login = new WLogin();
-			login.window.setVisible(true);
+			window.setVisible(true);
 			
 			Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-			Dimension window = login.window.getSize();
-			login.window.setLocation((screen.width - window.width)/2, (screen.height - window.height)/2);
+			Dimension windowSize = window.getSize();
+			window.setLocation((screen.width - windowSize.width)/2, (screen.height - windowSize.height)/2);
 			
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public WLogin(){
+	public WLogin(WMainWindow wMainWindow){
+		this.wMainWindow = wMainWindow;
 		initialize();
 	}
 
@@ -156,7 +157,7 @@ public class WLogin implements Runnable {
 					}
 					
 					WMainWindow.isLogged = true;
-					
+					wMainWindow.showLblUser();
 					window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
 				
 				} catch (MalformedURLException e) {
