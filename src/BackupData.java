@@ -204,7 +204,5 @@ public class BackupData {
 	public static void setUserName(StringBuffer userName) {
 		BackupData.userName = userName.toString();
 		System.out.println("Setting userName to: "+ BackupData.userName);
-	}
-
-	
+	}	
 }
