@@ -3,7 +3,7 @@ import java.io.File;
 public class BackupData {
 	
 	/*	Data related to updating Imperdible Backup Launcher	*/
-	private static Double launcherVersion = new Double(2.01);
+	private static Double launcherVersion = new Double(2.011);
 	private static String serverVersion = new String("http://backup.imperdiblesoft.com/launcherVersion.txt");
 	
 	private static String currentLocation = new String( System.getProperty("user.dir") +"/launcher.jar" );
