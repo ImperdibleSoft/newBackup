@@ -14,6 +14,11 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -21,11 +26,27 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class WMainWindow {
 	JFrame mainWindow;
+	
+	JPanel pnlMenu;
+	JButton btnNewDrive;
+	JButton btnAddFolder;
+	JButton btnBackup;
+	JButton btnRestore;
+	JButton btnCompress;
+	JButton btnClean;
+	
+	JPanel pnlOptions;
 	JLabel lblUser;
 	JButton btnLogin;
 	JButton btnProfile;
 	JButton btnLogout;
+	JButton btnExit;
 
+	JList<String[]> listFolders;
+	
+	JPanel pnlStatus;
+	JLabel lblStatus;
+	JProgressBar pbarStatus;
 	
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
@@ -88,14 +109,14 @@ public class WMainWindow {
 		/**
 		 * Menu Panel
 		 */
-		JPanel pnlMenu = new JPanel();
+		pnlMenu = new JPanel();
 		mainWindow.getContentPane().add(pnlMenu, "2, 2, fill, fill");
 		pnlMenu.setLayout(null);
 		
 		/**
 		 * New Drive Button
 		 */
-		final JButton btnNewDrive = new JButton("New Drive");
+		btnNewDrive = new JButton("New Drive");
 		btnNewDrive.setBounds(0, 0, 100, 35);
 		pnlMenu.add(btnNewDrive);
 		btnNewDrive.addActionListener(new ActionListener() {
@@ -112,7 +133,7 @@ public class WMainWindow {
 		/**
 		 * Add folder Button
 		 */
-		JButton btnAddFolder = new JButton("Add Folder");
+		btnAddFolder = new JButton("Add Folder");
 		btnAddFolder.setBounds(0, 55, 100, 35);
 		if(ImperdibleBackup.DriveConnected()){
 			btnAddFolder.setEnabled(true);
@@ -138,7 +159,7 @@ public class WMainWindow {
 		/**
 		 * Backup button
 		 */
-		JButton btnBackup = new JButton("Backup");
+		btnBackup = new JButton("Backup");
 		btnBackup.setBounds(0, 110, 100, 35);
 		if(ImperdibleBackup.DriveConnected()){
 			btnBackup.setEnabled(true);
@@ -160,7 +181,7 @@ public class WMainWindow {
 		/**
 		 * Restore button
 		 */
-		JButton btnRestore = new JButton("Restore");
+		btnRestore = new JButton("Restore");
 		btnRestore.setBounds(0, 150, 100, 35);
 		if(ImperdibleBackup.DriveConnected()){
 			btnRestore.setEnabled(true);
@@ -182,7 +203,7 @@ public class WMainWindow {
 		/**
 		 * Compress button
 		 */
-		JButton btnCompress = new JButton("Compress");
+		btnCompress = new JButton("Compress");
 		btnCompress.setBounds(0, 190, 100, 35);
 		if(ImperdibleBackup.DriveConnected()){
 			btnCompress.setEnabled(true);
@@ -204,7 +225,7 @@ public class WMainWindow {
 		/**
 		 * Clean button
 		 */
-		JButton btnClean = new JButton("Clean");
+		btnClean = new JButton("Clean");
 		btnClean.setBounds(0, 230, 100, 35);
 		if(ImperdibleBackup.DriveConnected()){
 			btnClean.setEnabled(true);
@@ -226,7 +247,7 @@ public class WMainWindow {
 		/**
 		 * Options panel
 		 */
-		JPanel pnlOptions = new JPanel();
+		pnlOptions = new JPanel();
 		mainWindow.getContentPane().add(pnlOptions, "2, 4, 1, 3, fill, fill");
 		pnlOptions.setLayout(null);
 
@@ -236,9 +257,14 @@ public class WMainWindow {
 		btnProfile = new JButton("");
 		btnProfile.setBounds(0, 0, 100, 35);
 		btnProfile.setVisible(false);
-		btnProfile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		btnProfile.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					java.awt.Desktop.getDesktop().browse(new URI("http://www.imperdiblesoft.com/#/profile"));
+				} catch (IOException | URISyntaxException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		pnlOptions.add(btnProfile);
@@ -275,7 +301,7 @@ public class WMainWindow {
 		/**
 		 * Exit button
 		 */
-		JButton btnExit = new JButton("Exit");
+		btnExit = new JButton("Exit");
 		btnExit.setBounds(0, 100, 100, 35);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -288,13 +314,13 @@ public class WMainWindow {
 		/**
 		 * Folders list
 		 */
-		JList<String[]> listFolders = new JList<String[]>();
+		listFolders = new JList<String[]>();
 		mainWindow.getContentPane().add(listFolders, "4, 2, 1, 3, fill, fill");
 
 		/**
 		 * Status panel
 		 */
-		JPanel pnlStatus = new JPanel();
+		pnlStatus = new JPanel();
 		mainWindow.getContentPane().add(pnlStatus, "4, 6, fill, fill");
 		pnlStatus.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("10px"),
@@ -303,17 +329,18 @@ public class WMainWindow {
 			new RowSpec[] {
 				RowSpec.decode("21px"),
 				RowSpec.decode("34px"),}));
+		
 		/**
 		 * Label (Task status)
 		 */
-		JLabel lblStatus = new JLabel("No Imperdible Drive detected.");
+		lblStatus = new JLabel("No Imperdible Drive detected.");
 		pnlStatus.add(lblStatus, "2, 1, fill, fill");
 		lblStatus.setHorizontalAlignment(SwingConstants.LEFT);
 
 		/**
 		 * Progress bar (Task status)
 		 */
-		JProgressBar pbarStatus = new JProgressBar();
+		pbarStatus = new JProgressBar();
 		pnlStatus.add(pbarStatus, "1, 2, 3, 1, fill, fill");
 		pbarStatus.setEnabled(false);
 		pbarStatus.setToolTipText("");

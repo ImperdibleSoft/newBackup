@@ -31,10 +31,12 @@ import java.awt.event.ActionEvent;
 
 
 public class WLogin implements Runnable {
-	JFrame window;
 	WMainWindow wMainWindow;
-	private JTextField textUser;
-	private JTextField textPassword;
+	JFrame window;
+	
+	JTextField textUser;
+	JTextField textPassword;
+	JButton btnLogin;
 	
 	public void run() {
 
@@ -120,9 +122,10 @@ public class WLogin implements Runnable {
 		/**
 		 * Login button
 		 */
-		final JButton btnLogin = new JButton("Login");
+		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				btnLogin.setEnabled(false);
 				btnLogin.repaint();
 				
