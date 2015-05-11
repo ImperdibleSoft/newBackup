@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Window.Type;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -26,9 +28,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
+import org.json.JSONObject;
 
 public class WLogin implements Runnable {
 	WMainWindow wMainWindow;
@@ -130,36 +130,21 @@ public class WLogin implements Runnable {
 				btnLogin.repaint();
 				
 				try {
-					// Define the URL
-					String prodEnv = "http://www.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&";
-					String devEnv = "http://dev.imperdiblesoft.com/APIs/public.php?getBackupLogin=true&";
-					String localEnv = "http://localhost/imperdiblesoft/APIs/public.php?getBackupLogin=true&";
-					String urlStart = devEnv;
-					URL url;
-					StringBuffer result;
 					
-					// Get the user ID
-					url = new URL(urlStart + "return=id_usuario");
-					result = makeRequest(url);
+					// Get the user Data
+					URL url = new URL(BackupData.getUrl() + "getLogin=true");
+					StringBuffer result = makeRequest(url);
 					if(result.toString() != "false"){
-						BackupData.setUserID(result);
-					}
-
-					// Get the user Name
-					url = new URL(urlStart + "return=nombre");
-					result = makeRequest(url);
-					if(result.toString() != "false"){
-						BackupData.setUserName(result);
-					}
-
-					// Get the user Email
-					url = new URL(urlStart + "return=email");
-					result = makeRequest(url);
-					if(result.toString() != "false"){
-						BackupData.setUserEmail(result);
+						JSONObject obj = new JSONObject(result.toString());
+						
+						BackupData.myUser = new OUserData(
+								obj.getString("id_usuario").toString(), 
+								obj.getString("nombre").toString(), 
+								obj.getString("email").toString()
+							);
 					}
 					
-					wMainWindow.showUserName();
+					wMainWindow.loginUser();
 					window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
 				
 				} catch (MalformedURLException e) {
@@ -167,6 +152,7 @@ public class WLogin implements Runnable {
 					
 				} catch (IOException e) {
 					e.printStackTrace();
+					
 				}
 			}
 		});

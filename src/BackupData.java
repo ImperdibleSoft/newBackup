@@ -2,16 +2,45 @@ import java.io.File;
 
 public class BackupData {
 	
+	/*	Data related to the enviroment	*/
+	private static String enviroment = "dev";
+	private static final String prod = "http://www.imperdiblesoft.com/APIs/backup.php?";
+	private static final String dev = "http://dev.imperdiblesoft.com/APIs/backup.php?";
+	private static final String local = "http://localhost/imperdiblesoft/APIs/backup.php?";
+	
+	/*	Data related to the user */
+	static OUserData myUser;
+	
 	/*	Data related to updating Imperdible Backup Launcher	*/
 	private static Double launcherVersion = new Double(2.011);
 	private static String serverVersion = new String("http://backup.imperdiblesoft.com/launcherVersion.txt");
 	
 	private static String currentLocation = new String( System.getProperty("user.dir") +"/launcher.jar" );
 	private static String serverLocation = new String( "http://backup.imperdiblesoft.com/updates/launcher.jar" );
-
+	
 	private static String favicon = new String("/img/material_logo_128.png");
 	private static String sysTrayIcon = new String("");
+
+	/*	Data related to Imperdible Backup Config	*/
+	private static final String OS = detectOS();
 	
+	private static File imperdibleDrive = new File("");
+	private static File[] syncFolders = new File[20];
+	
+	private static boolean showOnStartup = false;
+	private static boolean startMinimized = false;
+	private static boolean autoDetect = true;
+	private static boolean showAtConnection = true;
+	private static boolean autoBackup = false;
+	
+	private static Double usedSpace = new Double(0);
+	private static Double backupSize = new Double(0);
+	
+	private static int selectedRow = 0;
+    private static boolean warning = true;
+    private static boolean statusControl = true;
+    private static boolean stop = false;
+
 	public static Double getLauncherVersion() {
 		return launcherVersion;
 	}
@@ -36,26 +65,6 @@ public class BackupData {
 		sysTrayIcon = imageRoute;
 	}
 	
-	/*	Data related to Imperdible Backup Config	*/
-	private static final String OS = detectOS();
-	
-	private static File imperdibleDrive = new File("");
-	private static File[] syncFolders = new File[20];
-	
-	private static boolean showOnStartup = false;
-	private static boolean startMinimized = false;
-	private static boolean autoDetect = true;
-	private static boolean showAtConnection = true;
-	private static boolean autoBackup = false;
-	
-	private static Double usedSpace = new Double(0);
-	private static Double backupSize = new Double(0);
-	
-	private static int selectedRow = 0;
-    private static boolean warning = true;
-    private static boolean statusControl = true;
-    private static boolean stop = false;
-
 	public static String getOs() {
 		return OS;
 	}
@@ -180,29 +189,18 @@ public class BackupData {
 		return myOS;
 	}
 	
-	private static String userID;
-	private static String userEmail;
-	private static String userName;
-	
-	public String getUserID() {
-		return userID;
+	public static String getUrl(){
+		if(enviroment == "prod"){
+			return prod;
+			
+		}else if(enviroment == "dev"){
+			return dev;
+			
+		}else if(enviroment == "local"){
+			return local;
+			
+		}else{
+			return null;
+		}
 	}
-	public static void setUserID(StringBuffer userID) {
-		BackupData.userID = (userID.toString());
-		System.out.println("Setting userID to: "+ BackupData.userID);
-	}
-	public String getUserEmail() {
-		return userEmail;
-	}
-	public static void setUserEmail(StringBuffer userEmail) {
-		BackupData.userEmail = userEmail.toString();
-		System.out.println("Setting userEmail to: "+ BackupData.userEmail);
-	}
-	public static String getUserName() {
-		return userName;
-	}
-	public static void setUserName(StringBuffer userName) {
-		BackupData.userName = userName.toString();
-		System.out.println("Setting userName to: "+ BackupData.userName);
-	}	
 }

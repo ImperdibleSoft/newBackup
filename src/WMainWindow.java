@@ -289,7 +289,7 @@ public class WMainWindow {
 		btnLogout.setVisible(false);
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				logoutUser();
 			}
 		});
 		pnlOptions.add(btnLogout);
@@ -347,8 +347,14 @@ public class WMainWindow {
 		
 	}
 	
-	public void showUserName(){
-		btnProfile.setText(BackupData.getUserName());
+
+	public void startLoginThread(){
+		Thread login = new Thread(new WLogin(this));
+		login.start();
+	}
+
+	public void loginUser(){
+		btnProfile.setText(BackupData.myUser.getName());
 		btnProfile.setVisible(true);
 		btnProfile.repaint();
 		
@@ -358,10 +364,19 @@ public class WMainWindow {
 		btnLogout.setVisible(true);
 		btnLogout.repaint();
 	}
-
-	public void startLoginThread(){
-		Thread login = new Thread(new WLogin(this));
-		login.start();
+	
+	public void logoutUser(){
+		btnProfile.setText("User");
+		btnProfile.setVisible(false);
+		btnProfile.repaint();
+		
+		btnLogin.setVisible(true);
+		btnLogin.repaint();
+		
+		btnLogout.setVisible(false);
+		btnLogout.repaint();
+		
+		BackupData.myUser.logout();
 	}
 	
 	public boolean isVisible() {
